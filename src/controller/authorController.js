@@ -45,7 +45,7 @@ const createAuthor = async function (req, res) {
         data.email=email.toLowerCase()
 
         let createdAuthor = await authorModel.create(data)
-        res.status(201).send({ status: true, msg: createdAuthor })
+        res.status(201).send({ status: true, data: createdAuthor })
     }
     catch (err) {
         res.status(500).send({ status: false, Error: err.message })
@@ -68,7 +68,7 @@ const authLogin = async function (req, res) {
             return res.status(400).send({ status: false, Error: "Email or password is incorrect" })
         }
         let token = jwt.sign({ user: user._id.toString() }, "vagaProject1")
-        return res.status(200).send({ status: true, msg: token })
+        return res.status(200).send({ status: true, data: token })
     }
     catch(err){
         res.status(500).send({status:false,Error:err.message})
