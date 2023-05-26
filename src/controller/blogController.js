@@ -26,7 +26,7 @@ const createBlog = async function (req, res) {
             req.body["publishedAt"] = Date.now()
         }
         const savedData = await blogsModel.create(req.body)
-        res.status(201).send({ status: true, msg: savedData })
+        res.status(201).send({ status: true, data: savedData })
     }
     catch (err) {
         res.status(500).send({ status: false, msg: err.message })
@@ -53,7 +53,7 @@ const getBlogsData = async function (req, res) {
         if (Object.keys(qparams).length == 0) {
             let data = await blogsModel.find({ isDeleted: false, isPublished: true }).populate("authorId", { fname: 1, lname: 1, title: 1, _id: 0 })
             if (data.length != 0) {
-                return res.status(200).send({ status: true, msg: data })
+                return res.status(200).send({ status: true, data: data })
             }
         }
         
@@ -61,7 +61,7 @@ const getBlogsData = async function (req, res) {
         qparams.isPublished=true
         let data = await blogsModel.find(qparams).populate("authorId", { fname: 1, lname: 1, title: 1, _id: 0 })
         if(data.length!=0){
-            return res.status(200).send({status:true,msg:data})
+            return res.status(200).send({status:true,data:data})
         }
         return res.status(404).send({status:false,msg:"no data found"})
     }
